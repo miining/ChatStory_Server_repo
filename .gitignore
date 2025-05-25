@@ -1,5 +1,6 @@
 
 # 환경 변수
+*.pem
 .env
 
 # Python 캐시
