@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException, Response, Depends, Request
 from app.schemas.story_schema import StoryCreate
 from app.core.jwt import verify_access_token
 
-router = APIRouter(tags=["Story"])
+router = APIRouter()
 
 @router.post("/stories/create")
 async def create_story(story: StoryCreate, request: Request):
@@ -24,4 +24,16 @@ async def create_story(story: StoryCreate, request: Request):
 
     # 제목과 장르 저장 (예시)
     # 실제로는 DB에 저장해야 함
-    return {"message": f"'{story.title}' ({story.genre}) 소설이 생성되었습니다.", "user_id": user_id}
+    try:
+        book_id = create_story(story, payload)
+        return {
+            "book_id": book_id,
+            "message": "소설 생성 완료"
+        }
+    except Exception as e:
+        return {
+            "error": "소설 생성에 실패했습니다."
+        }, 500
+
+    
+    # return {"message": f"'{story.title}' ({story.genre}) 소설이 생성되었습니다.", "user_id": user_id}
