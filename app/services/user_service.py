@@ -11,14 +11,14 @@ db = client[os.getenv("DB_NAME", "chatstory")]
 
 def create_user(user_id: str, name: str, password: str):
     if db.users.find_one({"user_id": user_id}):
-        raise ValueError("이미 존재하는 ID입니디!")
+        raise ValueError("이미 존재하는 ID입니다!")
 
     hashed_pw = pwd_context.hash(password)
 
     db.users.insert_one({
-        "user_id": user_id,
+        "user_id": user_id,  # 해시값 저장
         "name": name,
-        "password": hashed_pw # 해시값이 저장된다
+        "password": hashed_pw
     })
 
     return {"success": True, "message": "회원가입이 완료되었습니다!"}

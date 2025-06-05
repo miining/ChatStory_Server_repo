@@ -35,7 +35,7 @@ async def login(user: UserLogin, response: Response):
         raise HTTPException(status_code=401, detail="존재하지 않는 ID입니다")
     
     if not verify_password(user.password, db_user['password']):
-        raise HTTPException(status_code=401, detail = "비밀번호가 일치하지 않습니다") 
+        raise HTTPException(status_code=401, detail="비밀번호가 일치하지 않습니다") 
     
     # 토큰-> 사용자 고유의 access할 수 있는 token 발급
     token = create_access_token(data={"sub": user.user_id})
@@ -51,7 +51,7 @@ async def login(user: UserLogin, response: Response):
     )
     
     # token type bearer -> 이 토큰을 가진 사람은 인증된 사용자로 간주 
-    # bearer: 소지자(bearer)가 토큰의 권한을 가진다 
+    # bearer: 소지자(bearer)가 토큰의 권한을 가진다 => http-only 쿠키를 사용할 때는 bearer 필요 x
     # 로그인 시 서버에 보낼 때 붙여서 사용 
     # return {"access_token": token, "token_type": "bearer", "message": f"{db_user['name']}님, 환영합니다!"}
     return {"message": f"{db_user['name']}님, 환영합니다!"}
